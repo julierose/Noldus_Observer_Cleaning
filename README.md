@@ -3,6 +3,7 @@ Cleans and formats outputs of fish and invertebrate behavior data exported
 from Noldus Observer software
 
 Data are exported as .xlsx files
+
 Attributes are stored in the column 'Observation', separated with underscore,
 using a consistent order
 
