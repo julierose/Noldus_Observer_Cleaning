@@ -36,4 +36,43 @@ behavior <- obs_import %>%
             Time_Absolute_f, Time_Relative_hmsf, Time_Relative_hms, 
             Time_Relative_f, Duration_sf, Event_Log, Modifier_1, Event_Type)) %>%
   mutate(Behavior = gsub("_.*","", Behavior)) %>%
-  arrange(Species, Behavior, Replicate)
+  arrange(Species, Behavior, Replicate) %>%
+  
+  #this part of the code automatically converts any outdated Long Island Sound 
+  #fish behavior codes to the most recent fish behavior codes. most of the time
+  #this code should do nothing.
+  mutate(across("Behavior", \(x) 
+                str_replace(x, "Station Keeping - Foraging", "Foraging"))) %>%
+  mutate(across("Behavior", \(x) 
+                str_replace(x, "Scan and Pick", "Foraging"))) %>%
+  mutate(across("Behavior", \(x) 
+                str_replace(x, "Ambush/Attack", "Foraging"))) %>%
+  mutate(across("Behavior", \(x) 
+                str_replace(x, "Transit", "Foraging"))) %>%
+  mutate(across("Behavior", \(x) 
+                str_replace(x, "Station Keeping - Shelter", "Shelter"))) %>%
+  mutate(across("Behavior", \(x) 
+                str_replace(x, "Rapid Retreat into Cage", "Shelter"))) %>%
+  mutate(across("Behavior", \(x) 
+                str_replace(x, "Retreat into Cage", "Shelter"))) %>%
+  #this code removes the parentheses from the (not predator response) text
+  mutate(across("Behavior", \(x) 
+                str_replace(x, " \\s*\\([^\\)]+\\)", ""))) %>%
+  mutate(across("Behavior", \(x) 
+                str_replace(x, "Retreat to Cage", "Shelter"))) %>%
+  mutate(across("Behavior", \(x) 
+                str_replace(x, "Resting", "Shelter"))) %>%
+  mutate(across("Behavior", \(x) 
+                str_replace(x, "Agonistic Display", "Territoriality"))) %>%
+  mutate(across("Behavior", \(x) 
+                str_replace(x, "Displacement", "Territoriality"))) %>%
+  mutate(across("Behavior", \(x) 
+                str_replace(x, "Spawning", "Reproduction"))) %>%
+  mutate(across("Behavior", \(x) 
+                str_replace(x, "Schooling", "Group Behavior"))) %>%
+  mutate(across("Behavior", \(x) 
+                str_replace(x, "Aggregation", "Group Behavior"))) %>%
+  mutate(across("Behavior", \(x) 
+                str_replace(x, "Escape from Cage", "Escape"))) %>%
+  mutate(across("Behavior", \(x) 
+                str_replace(x, "Exiting cage", "Escape")))
