@@ -76,3 +76,6 @@ behavior <- obs_import %>%
                 str_replace(x, "Escape from Cage", "Escape"))) %>%
   mutate(across("Behavior", \(x) 
                 str_replace(x, "Exiting cage", "Escape")))
+
+View(behavior) #check to make sure everything looks right before exporting!
+write_xlsx(behavior, "NEW FILEPATH")
